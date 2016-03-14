@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.GestureDetector;
 import android.view.Gravity;
@@ -31,11 +30,11 @@ public class GameActivity extends AppCompatActivity {
         final static int DOWN  = 1;
         final static int LEFT  = 2;
         final static int UP    = 3;
-        final static int ORDER[][] = {
-                {3, 2, 1, 0, 7, 6, 5, 4, 11, 10, 9, 8, 15, 14, 13, 12},
-                {12, 8, 4, 0, 13, 9, 5, 1, 14, 10, 6, 2, 15, 11, 7, 3},
-                {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
-                {0, 4, 8, 12, 1, 5, 9 ,13, 2, 6, 10 ,14, 3, 7, 11, 15}
+        final static int ORDER[][][] = {
+                {{3, 2, 1, 0}, {7, 6, 5, 4}, {11, 10, 9, 8}, {15, 14, 13, 12}},
+                {{12, 8, 4, 0}, {13, 9, 5, 1}, {14, 10, 6, 2}, {15, 11, 7, 3}},
+                {{0, 1, 2, 3}, {4, 5, 6, 7}, {8, 9, 10, 11}, {12, 13, 14, 15}},
+                {{0, 4, 8, 12}, {1, 5, 9 ,13}, {2, 6, 10 ,14}, {3, 7, 11, 15}}
         };
     }
 
@@ -172,15 +171,15 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void move(int direction) {
-        int order[] = Direction.ORDER[direction];
         boolean newTileFlag = false;
         boolean addFlag;
-        int size = 0;
+        List<Tile> emptyTiles = new ArrayList<>();
         for (int i = 0; i != 4; ++i) {
             List<Integer> nums = new ArrayList<>();
+            int order[] = Direction.ORDER[direction][i];
             addFlag = false;
             for (int j = 0; j != 4; ++j) {
-                Tile tile = tiles.get(order[i * 4 + j]);
+                Tile tile = tiles.get(order[j]);
                 int num = tile.getNumber();
                 if (num == 0)
                     continue;
@@ -201,24 +200,34 @@ public class GameActivity extends AppCompatActivity {
             }
             int j = 0;
             for (int num : nums) {
-                tiles.get(order[i * 4 + j]).show(num);
+                tiles.get(order[j]).show(num);
                 j++;
             }
-            size += j;
+            for (; j != 4; ++j)
+                emptyTiles.add(tiles.get(order[j]));
         }
-        if (size == 16) {
-            endGame();
-        } else if (newTileFlag) {
-            int newTileIndex = random.nextInt(16 - size);
-            int i = 0;
-            for (Tile tile : tiles) {
-                if (i > newTileIndex)
+        if (emptyTiles.size() == 1 && newTileFlag) {
+            emptyTiles.get(0).show();
+            boolean endFlag = true;
+            for (int i = 0; i != 2; ++i) {
+                for (int j = 0; j != 4; ++j) {
+                    int order[] = Direction.ORDER[i][j];
+                    for (int k = 0; k != 3; ++k)
+                        if (tiles.get(order[k]).getNumber() == tiles.get(order[k + 1]).getNumber()) {
+                            endFlag = false;
+                            break;
+                        }
+                    if (!endFlag)
+                        break;
+                }
+                if (!endFlag)
                     break;
-                if (tile.getNumber() != 0)
-                    newTileIndex++;
-                i++;
             }
-            tiles.get(newTileIndex).show();
+            if (endFlag)
+                endGame();
+        } else if (newTileFlag && !emptyTiles.isEmpty() ) {
+            int newTileIndex = random.nextInt(emptyTiles.size());
+            emptyTiles.get(newTileIndex).show();
         }
     }
 
