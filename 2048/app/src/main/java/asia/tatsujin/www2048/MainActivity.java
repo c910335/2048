@@ -9,11 +9,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 
+import asia.tatsujin.www2048.client.WWW2048;
+
 public class MainActivity extends AppCompatActivity {
 
-    ImageButton playButton;
-    ImageButton rankButton;
-    ImageButton exitButton;
+    private ImageButton playButton;
+    private ImageButton rankButton;
+    private ImageButton exitButton;
+
+    public static WWW2048 www2048;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initViews();
         setListeners();
+        www2048 = new WWW2048(this, getString(R.string.api_base_url));
     }
 
     private void initViews() {
@@ -40,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         rankButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(new Intent(v.getContext(), RankActivity.class));
             }
         });
         exitButton.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_about:
                 return true;
             case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);

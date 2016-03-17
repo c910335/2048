@@ -1,0 +1,10 @@
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- These settings headers are only used on tablets. -->
+
+    <header
+        android:fragment="asia.tatsujin.www2048.SettingsActivity$RankPreferenceFragment"
+        android:icon="@drawable/ic_people_black_24px"
+        android:title="@string/pref_header_rank" />
+
+</preference-headers>

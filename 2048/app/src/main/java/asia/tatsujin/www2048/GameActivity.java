@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import asia.tatsujin.www2048.client.data.Player;
+
 public class GameActivity extends AppCompatActivity {
 
     static class Direction {
@@ -119,7 +121,7 @@ public class GameActivity extends AppCompatActivity {
             }
         });
         tiles = new ArrayList<>();
-        bestScore = PreferenceManager.getDefaultSharedPreferences(this).getInt("best_score", 0);
+        bestScore = PreferenceManager.getDefaultSharedPreferences(this).getInt("player.score", 0);
         isStart = false;
     }
 
@@ -242,11 +244,11 @@ public class GameActivity extends AppCompatActivity {
 
     private void endGame() {
         isStart = false;
-        if (score >= bestScore)
-            PreferenceManager.getDefaultSharedPreferences(this)
-                    .edit()
-                    .putInt("best_score", score)
-                    .apply();
+        if (score >= bestScore) {
+            Player player = MainActivity.www2048.getPlayer();
+            player.setScore(score);
+            MainActivity.www2048.updatePlayer(player);
+        }
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.game_over)
             .setMessage(getString(R.string.score_colon) + score)
