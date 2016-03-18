@@ -68,6 +68,7 @@ public class GameActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         isStart = sharedPreferences.getBoolean("is_start", false);
         if (isStart) {
+            score = 0;
             addScore(sharedPreferences.getInt("score", 0));
             int i = 0;
             for (Tile tile : tiles) {
