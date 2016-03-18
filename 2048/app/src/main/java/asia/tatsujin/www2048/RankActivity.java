@@ -1,7 +1,8 @@
 package asia.tatsujin.www2048;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,13 +17,15 @@ import asia.tatsujin.www2048.client.tool.ResponseListener;
 public class RankActivity extends AppCompatActivity {
 
     private LinearLayout scoresView;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rank);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getString(R.string.loading));
+        progressDialog.show();
         scoresView = (LinearLayout) findViewById(R.id.view_scores);
         MainActivity.www2048.getPlayers(new ResponseListener<Players>() {
             @Override
@@ -35,6 +38,7 @@ public class RankActivity extends AppCompatActivity {
                     ((TextView) scoreRow.findViewById(R.id.text_score)).setText(String.valueOf(player.getScore()));
                     scoresView.addView(scoreRow);
                 }
+                progressDialog.dismiss();
             }
 
             @Override
@@ -42,8 +46,8 @@ public class RankActivity extends AppCompatActivity {
 
             }
         });
-        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdView adView = (AdView) findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
+        adView.loadAd(adRequest);
     }
 }

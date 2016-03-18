@@ -2,12 +2,15 @@ package asia.tatsujin.www2048;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.method.LinkMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import asia.tatsujin.www2048.client.WWW2048;
 
@@ -66,11 +69,23 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_about:
+                showAbout();
                 return true;
             case R.id.action_settings:
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showAbout() {
+        AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.action_about)
+                .setView(R.layout.dialog_about)
+                .show();
+        ((TextView) alertDialog.findViewById(R.id.contributors))
+                .setMovementMethod(LinkMovementMethod.getInstance());
+        ((TextView) alertDialog.findViewById(R.id.github))
+                .setMovementMethod(LinkMovementMethod.getInstance());
     }
 }

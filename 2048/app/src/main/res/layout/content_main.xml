@@ -18,36 +18,32 @@
         android:layout_height="@dimen/home_button_size"
         android:contentDescription="@string/play"
         android:src="@drawable/fig_play"
-        android:scaleType="fitStart"
+        android:scaleType="fitCenter"
         android:background="@null"
         android:id="@+id/button_play"
-        android:layout_alignParentStart="true"
+        android:layout_centerHorizontal="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="40dp"/>
+        android:layout_marginTop="115dp"/>
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="@dimen/home_button_size"
         android:contentDescription="@string/rank"
         android:src="@drawable/fig_rank"
-        android:scaleType="fitEnd"
+        android:scaleType="fitCenter"
         android:background="@null"
         android:id="@+id/button_rank"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="5dp"
-        android:layout_centerVertical="true"/>
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="242dp"/>
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="@dimen/home_button_size"
         android:contentDescription="@string/exit"
         android:src="@drawable/fig_exit"
-        android:scaleType="fitStart"
+        android:scaleType="fitCenter"
         android:background="@null"
         android:id="@+id/button_exit"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="22dp"
-        android:layout_marginBottom="36dp"/>
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="369dp"/>
 </RelativeLayout>
