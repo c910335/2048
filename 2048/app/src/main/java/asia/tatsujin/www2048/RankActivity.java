@@ -6,6 +6,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import asia.tatsujin.www2048.client.data.Player;
 import asia.tatsujin.www2048.client.data.Players;
 import asia.tatsujin.www2048.client.tool.ResponseListener;
@@ -16,6 +19,8 @@ public class RankActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rank);
         scoresView = (LinearLayout) findViewById(R.id.view_scores);
@@ -37,5 +42,8 @@ public class RankActivity extends AppCompatActivity {
 
             }
         });
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 }
